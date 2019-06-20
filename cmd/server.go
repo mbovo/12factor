@@ -17,7 +17,9 @@ package cmd
 import (
 	"fmt"
 
+	"github.com/gin-gonic/gin"
 	"github.com/spf13/cobra"
+	"github.com/spf13/viper"
 )
 
 // serverCmd represents the server command
@@ -27,6 +29,14 @@ var serverCmd = &cobra.Command{
 	Long:  ``,
 	Run: func(cmd *cobra.Command, args []string) {
 		fmt.Println("server called")
+		r := gin.Default()
+		r.GET("/ping", func(c *gin.Context) {
+			c.JSON(200, gin.H{
+				"message": "pong",
+			})
+		})
+		listen := cmd.LocalFlags().Lookup("listen").Value.String()
+		r.Run(listen)
 	},
 }
 
@@ -36,6 +46,7 @@ func init() {
 	rootCmd.AddCommand(serverCmd)
 
 	serverCmd.Flags().StringVarP(&listen, "listen", "l", "localhost:8000", "Listening address:port")
+	viper.BindPFlag("listen", serverCmd.LocalFlags().Lookup("listen"))
 
 	// Here you will define your flags and configuration settings.
 
