@@ -1,4 +1,4 @@
-# GO app Skeleton creator
+# 12Factor Application
 
-Minimal go app that create a git skeleton project of a new go app (inception!)
+Minimal go app that explain concept of a 12factor and cloud native application
 
